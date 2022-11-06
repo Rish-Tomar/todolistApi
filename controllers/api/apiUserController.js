@@ -3,7 +3,7 @@ const createJWT = require('jsonwebtoken')
 const JWTKEY = 'localjwtkey';
 
 
-
+// module handling signing in
 module.exports.createSession = async (req,res)=>{
     try{
         console.log(req.body)
@@ -31,6 +31,7 @@ module.exports.createSession = async (req,res)=>{
     }
 }
 
+//module handling create a to do item for a particular user
 module.exports.createTodo = async (req,res)=>{
     //will have a post call
     console.log('recieved data',req.params)
@@ -116,4 +117,27 @@ module.exports.deleteTodo = async (req,res)=>{
         })
     }
 
+}
+
+//for showing all the to do list item 
+module.exports.showTodo = async(req,res)=>{
+    try{
+        const user = await User.findById(req.params.id)
+
+        if(user){
+            return res.status(200).json({
+                message:'fetching todo list successful',
+                data:user.todolist
+            })
+        }
+        return res.status(422).json({
+            message:'error while retrieving todo list items.'
+        })
+
+
+    }catch(err){
+        return res.status(500).json({
+            message:'Internal server error'
+        })
+    }
 }
