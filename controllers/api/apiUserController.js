@@ -63,6 +63,7 @@ module.exports.createTodo = async (req,res)=>{
     }
 }
 
+//to update item inside todo list
 module.exports.updateTodo = async (req,res)=>{
     console.log('recieved as',req.body,req.params)
 
@@ -92,5 +93,27 @@ module.exports.updateTodo = async (req,res)=>{
     }
 }
 
-// "accesstoken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzY3NjQwYjAxZmUzZjhjNzNmYTM0ZTUiLCJuYW1lIjoiUlQiLCJwYXNzd29yZCI6IkRlZmF1bHRAMjAyMiIsImVtYWlsIjoiZGVmYXVsdEBnbWFpbC5jb20iLCJjcmVhdGVkQXQiOiIyMDIyLTExLTA2VDA3OjM2OjQzLjQ3MVoiLCJ1cGRhdGVkQXQiOiIyMDIyLTExLTA2VDExOjMxOjMzLjc4NVoiLCJfX3YiOjIsInRvZG9saXN0IjpbeyJpZCI6MSwidGl0bGUiOiJrdWNoIG5haGkiLCJ0aW1lIjoiMjAyMi0wOS0yMFQwMDowMDowMC4wMDBaIiwiX2lkIjoiNjM2NzlhZWVkM2RiNGUzNmMxNzc3NTVkIn1dLCJpYXQiOjE2Njc3MzU4MTYsImV4cCI6MTY2NzczNzYxNn0.Q5tXM78gqPqcML52ox9_wEoGQ8gLER0YLGu8c-b7UJE",
-//         "id": "6367640b01fe3f8c73fa34e5"
+//to delete the todo item
+module.exports.deleteTodo = async (req,res)=>{
+    console.log('delete request execution',req.params.userid)
+
+    try{
+       User.findOneAndUpdate({_id:req.params.userid},{$pull:{todolist:{id:req.params.todoid}}},(err,data)=>{
+        if(err){
+            console.log(err)
+            return res.status(404).json({
+                error:'the to do item was not deleted'
+            })
+        }
+        return res.status(200).json({
+                    message:'To do item deleted'
+                })
+       })
+   
+    }catch(err){
+        return res.status(500).json({
+            message:'Internal server error'
+        })
+    }
+
+}

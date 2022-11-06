@@ -10,5 +10,5 @@ Router.post('/create-todo/:id',passport.authenticate('jwt',{session:false}),user
 //session is falsed to prevent from generating session cookies
 
 Router.patch('/update-post/:userid/:todoid',passport.authenticate('jwt',{session:false}),userApiController.updateTodo)
-
+Router.delete('/delete/:userid/:todoid',passport.authenticate('jwt',{session:false}),userApiController.deleteTodo)
 module.exports = Router
