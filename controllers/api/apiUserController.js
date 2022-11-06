@@ -54,7 +54,7 @@ module.exports.createTodo = async (req,res)=>{
         user.todolist.push(listItem)
         user.save()
         return res.status(200).json({
-            message:'u can add the todo item'
+            message:'data Added successfully'
         })
     }
     catch(err){
